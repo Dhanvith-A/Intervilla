@@ -1,3 +1,94 @@
-<html>
-  sdt
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intevilla - Text Pressure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #050505;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .hero {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .text-pressure {
+            font-family: Impact, "Arial Black", sans-serif;
+            font-size: clamp(70px, 13vw, 220px);
+            font-weight: 900;
+            letter-spacing: -8px;
+            line-height: 0.8;
+            text-align: center;
+            cursor: pointer;
+            transform-origin: center;
+            transition:
+                transform 0.12s ease,
+                letter-spacing 0.12s ease;
+        }
+        .subtitle {
+            margin-top: 50px;
+            font-size: 18px;
+            color: #999;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="text-pressure" id="textPressure">
+            INTEVILLA
+        </div>
+        <p class="subtitle">
+            Where Intelligence Meets Innovation
+        </p>
+    </section>
+    <script>
+        const text = document.getElementById("textPressure");
+        document.addEventListener("mousemove", function(event) {
+            const rect = text.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const distanceX = event.clientX - centerX;
+            const distanceY = event.clientY - centerY;
+            const distance = Math.sqrt(
+                distanceX * distanceX +
+                distanceY * distanceY
+            );
+            const maxDistance = 500;
+            let strength = 1 - distance / maxDistance;
+            strength = Math.max(
+                0,
+                Math.min(1, strength)
+            );
+            const scaleX = 1 + strength * 0.35;
+            const scaleY = 1 - strength * 0.12;
+            const letterSpacing =
+                -8 + strength * 8;
+            text.style.transform =
+                `scaleX(${scaleX}) scaleY(${scaleY})`;
+            text.style.letterSpacing =
+                `${letterSpacing}px`;
+        });
+        document.addEventListener("mouseleave", function() {
+            text.style.transform =
+                "scaleX(1) scaleY(1)";
+            text.style.letterSpacing =
+                "-8px";
+        });
+    </script>
+</body>
 </html>
