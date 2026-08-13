@@ -1,0 +1,1 @@
+print("safal is gay");
